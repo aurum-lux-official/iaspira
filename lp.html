@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>イアスピラ｜ホームページ制作・3Dサイト</title>
+  <meta name="description" content="訴求整理から見出し設計・CV導線・3Dサイト生成まで。成果につながるホームページを業種ごとに最適化して制作します。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Serif+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #1a2238; --canvas: #fff; --cloud: #e3e8f0; --slate: #5a6478;
+      --hairline: rgb(26 34 56 / 8%);
+      --shadow-soft: 0 10px 30px rgb(26 34 56 / 6%);
+      --shadow-lift: 0 24px 64px rgb(26 34 56 / 12%);
+      --serif: "Noto Serif JP", ui-serif, Georgia, serif;
+      --sans: "Manrope", "Hiragino Sans", "Yu Gothic", system-ui, sans-serif;
+      --radius: 14px; --radius-sm: 10px; --max: 1200px;
+      --accent: #2e7bf0; --accent2: #4fb6f5; --accent-soft: rgb(46 123 240 / 10%);
+      --grad-accent: linear-gradient(100deg, #2e7bf0, #4fb6f5);
+      --panel: rgb(255 255 255 / 70%); --panel-strong: rgb(255 255 255 / 86%);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin:0; color:var(--ink); font-family:var(--sans); line-height:1.7;
+      background:
+        radial-gradient(circle at 80% 6%, rgb(46 123 240 / 16%), transparent 30rem),
+        radial-gradient(circle at 12% 16%, rgb(150 200 240 / 42%), transparent 32rem),
+        radial-gradient(circle at 92% 70%, rgb(79 182 245 / 16%), transparent 30rem),
+        linear-gradient(180deg, #eef4fb 0%, #e4eef8 55%, #eaf0f9 100%);
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; text-rendering:optimizeLegibility; letter-spacing:.01em; }
+    a { color:inherit; text-decoration:none; }
+    ::selection { background: var(--accent-soft); }
+    a:focus-visible, button:focus-visible { outline:2px solid var(--accent); outline-offset:3px; border-radius:8px; }
+    @media (prefers-reduced-motion: reduce) { html{scroll-behavior:auto;} *,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important;} .reveal{opacity:1!important;transform:none!important;} }
+    .container { width:min(var(--max), calc(100% - 48px)); margin:0 auto; }
+
+    .nav { position:sticky; top:0; z-index:40; backdrop-filter:blur(16px); background:rgb(255 255 255 / 60%); transition:background .3s, box-shadow .3s; }
+    .nav.is-scrolled { background:rgb(255 255 255 / 86%); box-shadow:0 6px 26px rgb(26 34 56 / 7%); }
+    .nav-inner { min-height:74px; display:flex; align-items:center; justify-content:space-between; gap:24px; }
+    .brand { display:inline-flex; align-items:center; gap:11px; }
+    .brand-mark { width:38px; height:38px; border-radius:10px; background:var(--grad-accent); display:grid; place-items:center; color:#fff; font-family:var(--serif); font-weight:700; font-size:22px; box-shadow:0 6px 16px rgb(46 123 240 / 34%); }
+    .brand-text b { display:block; font-family:var(--serif); font-weight:600; font-size:19px; line-height:1.1; }
+    .brand-text span { display:block; font-size:9px; letter-spacing:.18em; color:var(--slate); margin-top:2px; }
+    .nav-links { display:flex; align-items:center; gap:30px; font-size:14px; font-weight:600; color:#2b3450; }
+    .nav-links > a { position:relative; padding:4px 0; }
+    .nav-links > a::after { content:""; position:absolute; left:0; bottom:0; width:100%; height:2px; border-radius:9px; background:var(--grad-accent); transform:scaleX(0); transform-origin:left; transition:transform .28s cubic-bezier(.2,.7,.2,1); }
+    .nav-links > a:hover::after { transform:scaleX(1); }
+    .btn { position:relative; display:inline-flex; align-items:center; justify-content:center; gap:8px; border:none; cursor:pointer; font-family:var(--sans); font-weight:700; line-height:1; border-radius:999px; transition:transform .25s cubic-bezier(.2,.7,.2,1), box-shadow .25s; white-space:nowrap; }
+    .btn-grad { color:#fff; background:var(--grad-accent); padding:13px 26px; font-size:14px; box-shadow:0 10px 24px rgb(46 123 240 / 32%); }
+    .btn-grad:hover { transform:translateY(-2px); box-shadow:0 16px 32px rgb(46 123 240 / 42%); }
+    .btn-grad .ar { transition:transform .25s; }
+    .btn-grad:hover .ar { transform:translateX(4px); }
+    .btn-ghost { color:var(--ink); background:rgb(255 255 255 / 80%); border:1px solid var(--cloud); padding:13px 24px; font-size:14px; }
+    .btn-ghost:hover { transform:translateY(-2px); box-shadow:var(--shadow-soft); border-color:rgb(46 123 240 / 30%); }
+
+    .hero { position:relative; overflow:hidden; padding:70px 0 64px; }
+    .hero-bg { position:absolute; inset:0; z-index:-1; overflow:hidden; }
+    .hero-bg video { width:100%; height:100%; object-fit:cover; opacity:.5; }
+    .hero-bg::after { content:""; position:absolute; inset:0; background:linear-gradient(110deg, rgb(238 244 251 / 92%) 0%, rgb(238 244 251 / 55%) 42%, rgb(238 244 251 / 25%) 70%, rgb(238 244 251 / 10%) 100%); }
+    .hero-grid { display:grid; grid-template-columns:1.04fr 1fr; gap:30px; align-items:center; }
+    .hero h1 { font-family:var(--serif); font-weight:600; font-size:clamp(34px, 4.4vw, 56px); line-height:1.28; letter-spacing:.01em; margin:0; }
+    .hero .lead { margin:22px 0 0; color:var(--slate); font-size:15px; line-height:1.95; max-width:30em; }
+    .hero-actions { display:flex; flex-wrap:wrap; gap:14px; margin-top:30px; }
+    .hero-visual { position:relative; min-height:380px; display:grid; place-items:center; }
+    .visual-stage { position:relative; width:100%; aspect-ratio:1/0.92; border-radius:24px; display:grid; place-items:center; overflow:hidden; }
+    .visual-stage .ph-label { position:absolute; bottom:12px; right:14px; font-size:9px; letter-spacing:.12em; color:rgb(90 100 120 / 55%); }
+    .visual-stage canvas { position:absolute; inset:0; width:100%; height:100%; }
+    .visual-stage.has3d .visual-ring { display:none; }
+    .visual-ring { width:78%; aspect-ratio:1; border-radius:50%; background:radial-gradient(circle at 38% 32%, #ffffff 0%, #e0efff 14%, #b9d9fb 30%, #8cbcf5 48%, #5a93e8 66%, transparent 78%); box-shadow:inset 0 0 60px rgb(255 255 255 / 70%), 0 30px 80px rgb(46 123 240 / 22%); position:relative; }
+    .visual-ring::before { content:"💎"; position:absolute; inset:0; display:grid; place-items:center; font-size:clamp(70px, 12vw, 130px); filter:drop-shadow(0 12px 30px rgb(46 123 240 / 30%)); }
+    .sparkle { position:absolute; border-radius:50%; background:radial-gradient(circle, #fff, transparent 70%); animation:tw 3.2s ease-in-out infinite; }
+    @keyframes tw { 0%,100%{opacity:.3; transform:scale(.8);} 50%{opacity:1; transform:scale(1.2);} }
+
+    .pills { display:grid; grid-template-columns:repeat(4, 1fr); gap:14px; margin-top:40px; }
+    .pill { display:flex; align-items:center; gap:11px; padding:16px 18px; border-radius:var(--radius-sm); background:rgb(255 255 255 / 72%); backdrop-filter:blur(12px); border:1px solid rgb(255 255 255 / 60%); box-shadow:var(--shadow-soft); font-size:13px; font-weight:600; }
+    .pill .pico { width:30px; height:30px; flex:none; border-radius:8px; background:var(--accent-soft); color:var(--accent); display:grid; place-items:center; font-size:15px; }
+
+    section { position:relative; padding:64px 0; }
+    .eyebrow { text-align:center; font-size:11px; font-weight:800; letter-spacing:.22em; color:var(--accent); margin-bottom:8px; }
+    .sec-title { text-align:center; font-family:var(--serif); font-weight:600; font-size:clamp(26px, 3.4vw, 38px); margin:0 0 40px; letter-spacing:.02em; }
+    .panel-wrap { background:rgb(255 255 255 / 42%); border-radius:26px; padding:46px 40px; backdrop-filter:blur(6px); }
+    .reveal { opacity:0; transform:translateY(26px); transition:opacity .7s cubic-bezier(.2,.7,.2,1) var(--rd,0ms), transform .7s cubic-bezier(.2,.7,.2,1) var(--rd,0ms); }
+    .reveal.is-visible { opacity:1; transform:none; }
+
+    .features { display:grid; grid-template-columns:repeat(3, 1fr); gap:20px; }
+    .fcard { background:var(--panel-strong); border-radius:var(--radius); padding:26px; box-shadow:var(--shadow-soft); border:1px solid rgb(255 255 255 / 70%); transition:transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s; }
+    .fcard:hover { transform:translateY(-5px); box-shadow:var(--shadow-lift); }
+    .fcard-head { display:flex; align-items:center; gap:13px; }
+    .fcard-icon { width:46px; height:46px; flex:none; border-radius:12px; background:var(--accent-soft); color:var(--accent); display:grid; place-items:center; font-size:20px; }
+    .fcard h3 { font-family:var(--serif); font-weight:600; font-size:18px; margin:0; }
+    .fcard h3 .hl { color:var(--accent); }
+    .fcard p { color:var(--slate); font-size:13.5px; margin:14px 0 18px; line-height:1.85; }
+    .fcard-visual { border-radius:var(--radius-sm); aspect-ratio:16/10; overflow:hidden; position:relative; background:linear-gradient(135deg, #eef2f8, #e3e9f3); display:grid; place-items:center; }
+    .fcard-visual .ph { font-size:40px; opacity:.5; }
+    .fcard-visual .ph-label { position:absolute; bottom:8px; right:10px; font-size:8px; letter-spacing:.1em; color:rgb(90 100 120 / 50%); }
+
+    .steps { display:flex; align-items:flex-start; justify-content:space-between; gap:8px; }
+    .step { flex:1; text-align:center; }
+    .step-ico { width:78px; height:78px; margin:0 auto 14px; border-radius:50%; background:rgb(255 255 255 / 80%); display:grid; place-items:center; font-size:28px; box-shadow:var(--shadow-soft); border:1px solid rgb(255 255 255 / 70%); }
+    .step h3 { font-family:var(--serif); font-weight:600; font-size:16px; margin:0 0 8px; }
+    .step p { color:var(--slate); font-size:12.5px; line-height:1.7; margin:0; padding:0 6px; }
+    .step-arrow { align-self:flex-start; margin-top:30px; color:var(--accent); font-size:22px; font-weight:700; flex:none; }
+
+    .prices { display:grid; grid-template-columns:repeat(3, 1fr); gap:20px; max-width:980px; margin:0 auto; }
+    .pcard { background:var(--panel-strong); border-radius:var(--radius); padding:30px 26px; box-shadow:var(--shadow-soft); border:1.5px solid rgb(255 255 255 / 70%); position:relative; text-align:center; }
+    .pcard.feat { border-color:var(--accent); box-shadow:0 20px 54px rgb(46 123 240 / 16%); }
+    .pcard .badge { position:absolute; top:-13px; right:18px; background:var(--grad-accent); color:#fff; font-size:11px; font-weight:700; padding:5px 14px; border-radius:999px; box-shadow:0 6px 14px rgb(46 123 240 / 30%); }
+    .pcard h3 { font-family:var(--serif); font-weight:600; font-size:17px; margin:0 0 12px; }
+    .pamount { font-family:var(--serif); font-weight:700; font-size:30px; margin-bottom:20px; }
+    .pamount small { font-size:15px; font-weight:500; }
+    .pcard ul { list-style:none; margin:0 0 22px; padding:0; display:grid; gap:11px; text-align:left; }
+    .pcard li { display:grid; grid-template-columns:18px 1fr; gap:9px; font-size:13.5px; color:#2b3450; align-items:start; }
+    .pcard li .ck { color:var(--accent); font-weight:800; }
+    .pbtn { display:inline-flex; align-items:center; justify-content:center; gap:7px; width:100%; padding:12px; border-radius:999px; font-weight:700; font-size:13.5px; transition:transform .25s, box-shadow .25s; }
+    .pbtn.solid { color:#fff; background:var(--grad-accent); box-shadow:0 10px 22px rgb(46 123 240 / 30%); }
+    .pbtn.solid:hover { transform:translateY(-2px); }
+    .pbtn.line { color:var(--accent); background:rgb(255 255 255 / 70%); border:1.5px solid var(--accent); }
+    .pbtn.line:hover { background:var(--accent-soft); }
+    .price-note { text-align:center; color:var(--slate); font-size:12px; margin-top:22px; }
+
+    .works { display:grid; grid-template-columns:repeat(6, 1fr); gap:14px; }
+    .work { aspect-ratio:1; border-radius:var(--radius-sm); overflow:hidden; background:linear-gradient(135deg, #eef2f8, #e6ecf5); display:grid; place-items:center; box-shadow:var(--shadow-soft); transition:transform .3s; }
+    .work:hover { transform:translateY(-4px); }
+    .work .ph { font-size:34px; opacity:.5; }
+    .works-cta { text-align:center; margin-top:28px; }
+    .works-cta a { display:inline-flex; align-items:center; gap:8px; padding:12px 26px; border-radius:999px; background:rgb(255 255 255 / 80%); border:1px solid var(--cloud); font-weight:700; font-size:13.5px; transition:transform .25s, box-shadow .25s; }
+    .works-cta a:hover { transform:translateY(-2px); box-shadow:var(--shadow-soft); }
+
+    .cta-band { display:grid; grid-template-columns:1fr 1.1fr; gap:36px; align-items:center; background:rgb(255 255 255 / 50%); border-radius:24px; padding:36px; overflow:hidden; }
+    .cta-visual { border-radius:var(--radius); aspect-ratio:16/11; background:linear-gradient(135deg, #fbe7f3, #ece1f8); display:grid; place-items:center; position:relative; overflow:hidden; }
+    .cta-visual .ph { font-size:54px; opacity:.55; }
+    .cta-visual .ph-label { position:absolute; bottom:10px; right:12px; font-size:8px; letter-spacing:.1em; color:rgb(90 100 120 / 50%); }
+    .cta-band h2 { font-family:var(--serif); font-weight:600; font-size:clamp(24px, 3vw, 34px); margin:0 0 14px; line-height:1.4; }
+    .cta-band p { color:var(--slate); font-size:14px; margin:0 0 22px; }
+    .cta-actions { display:flex; flex-wrap:wrap; gap:14px; }
+
+    .faq-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; max-width:1000px; margin:0 auto; }
+    .faq details { background:rgb(255 255 255 / 74%); border-radius:var(--radius-sm); border:1px solid rgb(255 255 255 / 70%); overflow:hidden; box-shadow:var(--shadow-soft); }
+    .faq summary { padding:16px 18px; font-weight:600; font-size:14px; cursor:pointer; list-style:none; display:flex; align-items:center; gap:12px; }
+    .faq summary::-webkit-details-marker { display:none; }
+    .faq summary .q { width:22px; height:22px; flex:none; border-radius:50%; background:var(--accent-soft); color:var(--accent); display:grid; place-items:center; font-family:var(--serif); font-size:12px; font-weight:700; }
+    .faq summary .ch { margin-left:auto; color:var(--accent); transition:transform .25s; }
+    .faq details[open] summary .ch { transform:rotate(180deg); }
+    .faq p { margin:0; padding:0 18px 18px 52px; color:var(--slate); font-size:13px; }
+
+    footer { padding:36px 0; border-top:1px solid var(--hairline); color:var(--slate); font-size:12.5px; margin-top:40px; }
+    .footer-inner { display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap; }
+    .footer-inner a { color:var(--accent); font-weight:700; }
+
+    @media (max-width: 980px) {
+      .nav-links { display:none; }
+      .hero-grid, .cta-band { grid-template-columns:1fr; }
+      .features, .prices { grid-template-columns:1fr; }
+      .pills { grid-template-columns:repeat(2, 1fr); }
+      .works { grid-template-columns:repeat(3, 1fr); }
+      .steps { flex-wrap:wrap; gap:22px; }
+      .step { flex:0 0 40%; }
+      .step-arrow { display:none; }
+      .faq-grid { grid-template-columns:1fr; }
+      .panel-wrap { padding:30px 20px; }
+    }
+    @media (max-width: 560px) {
+      .pills { grid-template-columns:1fr; }
+      .works { grid-template-columns:repeat(2, 1fr); }
+      .hero-actions .btn, .cta-actions .btn { width:100%; }
+    }
+  </style>
+</head>
+<body id="top">
+  <header class="nav" id="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark">B</span>
+        <span class="brand-text"><b>イアスピラ</b><span>WEB DESIGN &amp; 3D EXPERIENCE</span></span>
+      </a>
+      <nav class="nav-links">
+        <a href="#features">特徴</a>
+        <a href="#process">制作の流れ</a>
+        <a href="#price">料金の目安</a>
+        <a href="#faq">FAQ</a>
+        <a class="btn btn-grad" href="../index.html#contact">無料で相談する <span class="ar">→</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-bg" aria-hidden="true">
+        <video autoplay muted loop playsinline preload="auto" poster="../assets/posters/jewel-sapphire-necklace.jpg">
+          <source src="../assets/videos/jewel-sapphire-necklace.webm" type="video/webm">
+          <source src="../assets/videos/jewel-sapphire-necklace.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="container">
+        <div class="hero-grid">
+          <div>
+            <h1>印象を、成果に変える。<br>3Dで魅せるWebサイト制作</h1>
+            <p class="lead">美しいだけのデザインでは、ビジネスは加速しない。3D/WebGL表現×CV導線設計×短納期検証で、成果につながるサイトをつくります。</p>
+            <div class="hero-actions">
+              <a class="btn btn-grad" href="../index.html#contact">無料で相談する <span class="ar">→</span></a>
+              <a class="btn btn-ghost" href="../index.html#contact">サービス資料をダウンロード ↓</a>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <div class="visual-stage" id="diamond3d">
+              <div class="visual-ring" id="diamondFallback"></div>
+            </div>
+          </div>
+        </div>
+        <div class="pills">
+          <div class="pill"><span class="pico">◈</span>3D・WebGLで圧倒的な表現力</div>
+          <div class="pill"><span class="pico">✓</span>CV導線設計で成果を最大化</div>
+          <div class="pill"><span class="pico">⚡</span>短納期で検証・スピーディに改善</div>
+          <div class="pill"><span class="pico">📱</span>スマホ最適化・高速表示対応</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="container">
+        <div class="panel-wrap reveal">
+          <div class="eyebrow">FEATURES</div>
+          <h2 class="sec-title">選ばれる3つの理由</h2>
+          <div class="features">
+            <div class="fcard reveal">
+              <div class="fcard-head"><span class="fcard-icon">①</span><h3>3D / WebGLで魅せる唯一無二の表現</h3></div>
+              <p>商品・サービスの魅力を立体的に伝え、ユーザーの記憶に残る体験をつくります。</p>
+              <div class="fcard-visual" data-3d="feat-3d"><span class="ph">◈</span><span class="ph-label">3D / WEBGL</span></div>
+            </div>
+            <div class="fcard reveal">
+              <div class="fcard-head"><span class="fcard-icon">②</span><h3>CV導線設計で成果につなげる</h3></div>
+              <p>データ分析に基づいた導線設計で、集客から問い合わせ・購入までを最適化。</p>
+              <div class="fcard-visual" data-3d="feat-cv"><span class="ph">📊</span><span class="ph-label">CONVERSION</span></div>
+            </div>
+            <div class="fcard reveal">
+              <div class="fcard-head"><span class="fcard-icon">③</span><h3>短納期でつくり、検証し、グロースする</h3></div>
+              <p>スピーディに公開・検証・改善を繰り返し、ビジネスの成長を加速させます。</p>
+              <div class="fcard-visual" data-3d="feat-speed"><span class="ph">⚡</span><span class="ph-label">SPEED</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="process">
+      <div class="container">
+        <div class="panel-wrap reveal">
+          <div class="eyebrow">PROCESS</div>
+          <h2 class="sec-title">制作の流れ</h2>
+          <div class="steps">
+            <div class="step reveal"><div class="step-ico">💬</div><h3>ヒアリング</h3><p>課題やゴールを明確にし、最適な方向性を設計します。</p></div>
+            <div class="step-arrow">›</div>
+            <div class="step reveal"><div class="step-ico">📋</div><h3>企画・設計</h3><p>サイト構成・導線・コンテンツを設計します。</p></div>
+            <div class="step-arrow">›</div>
+            <div class="step reveal"><div class="step-ico">◈</div><h3>デザイン・3D制作</h3><p>ビジュアル・3D表現で魅力を最大化します。</p></div>
+            <div class="step-arrow">›</div>
+            <div class="step reveal"><div class="step-ico">&lt;/&gt;</div><h3>実装・開発</h3><p>高品質なコーディングでスピーディに実装します。</p></div>
+            <div class="step-arrow">›</div>
+            <div class="step reveal"><div class="step-ico">🚀</div><h3>公開・検証</h3><p>公開後も分析・改善で成果を伸ばします。</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="price">
+      <div class="container">
+        <div class="panel-wrap reveal">
+          <div class="eyebrow">PRICE</div>
+          <h2 class="sec-title">料金の目安</h2>
+          <div class="prices">
+            <div class="pcard reveal">
+              <h3>ライトプラン</h3>
+              <div class="pamount">30<small>万円〜</small></div>
+              <ul>
+                <li><span class="ck">✓</span>小規模サイト向け</li>
+                <li><span class="ck">✓</span>トップページ＋下層3ページまで</li>
+                <li><span class="ck">✓</span>基本的なお問い合わせ導線</li>
+              </ul>
+              <a class="pbtn line" href="../index.html#contact">詳しく見る →</a>
+            </div>
+            <div class="pcard feat reveal">
+              <span class="badge">人気No.1</span>
+              <h3>スタンダードプラン</h3>
+              <div class="pamount">60<small>万円〜</small></div>
+              <ul>
+                <li><span class="ck">✓</span>中小企業・サービスサイト向け</li>
+                <li><span class="ck">✓</span>オリジナルデザイン＋下層6ページまで</li>
+                <li><span class="ck">✓</span>CV導線設計・基本SEO対策</li>
+              </ul>
+              <a class="pbtn solid" href="../index.html#contact">詳しく見る →</a>
+            </div>
+            <div class="pcard reveal">
+              <h3>プレミアムプラン</h3>
+              <div class="pamount">100<small>万円〜</small></div>
+              <ul>
+                <li><span class="ck">✓</span>ブランディング・複雑な表現に最適</li>
+                <li><span class="ck">✓</span>3D/WebGL表現・アニメーション</li>
+                <li><span class="ck">✓</span>戦略設計・改善サポート込み</li>
+              </ul>
+              <a class="pbtn line" href="../index.html#contact">詳しく見る →</a>
+            </div>
+          </div>
+          <p class="price-note">※表示は目安です。ページ数や機能、3D表現の規模により変動します。詳細はご相談時にお伝えします。</p>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="cta">
+      <div class="container">
+        <div class="cta-band reveal">
+          <div class="cta-visual" data-3d="cta-web"><span class="ph">💻</span><span class="ph-label">3D VISUAL</span></div>
+          <div>
+            <h2>まずは無料でご相談ください</h2>
+            <p>貴社の課題に合わせて、最適なWebサイトのご提案をいたします。</p>
+            <div class="cta-actions">
+              <a class="btn btn-grad" href="../index.html#contact">無料で相談する <span class="ar">→</span></a>
+              <a class="btn btn-ghost" href="../index.html#contact">サービス資料をダウンロード ↓</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="container">
+        <div class="eyebrow">FAQ</div>
+        <h2 class="sec-title">よくあるご質問</h2>
+        <div class="faq faq-grid">
+          <details class="reveal"><summary><span class="q">Q</span>制作期間はどのくらいかかりますか？<span class="ch">⌄</span></summary><p>LPなら最短数週間、複数ページのサイトは内容によります。スケジュールはご相談時にお伝えします。</p></details>
+          <details class="reveal"><summary><span class="q">Q</span>公開後のサポートはありますか？<span class="ch">⌄</span></summary><p>はい。更新対応や運用のご相談も承ります。ご自身で更新できるCMS導入も可能です。</p></details>
+          <details class="reveal"><summary><span class="q">Q</span>原稿や素材がなくても依頼できますか？<span class="ch">⌄</span></summary><p>もちろんです。構成案や原稿作成のサポートも行います。</p></details>
+          <details class="reveal"><summary><span class="q">Q</span>3D表現はどのようなサイトに向いていますか？<span class="ch">⌄</span></summary><p>ブランドサイトや商品紹介など、世界観や没入感を伝えたいサイトに効果的です。</p></details>
+          <details class="reveal"><summary><span class="q">Q</span>スマホ対応は標準で含まれますか？<span class="ch">⌄</span></summary><p>はい。すべてレスポンシブ対応で、スマホ・タブレットでも見やすく設計します。</p></details>
+          <details class="reveal"><summary><span class="q">Q</span>お見積もりは無料ですか？<span class="ch">⌄</span></summary><p>はい。ご相談・お見積りは無料です。お気軽にお問い合わせください。</p></details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>© <span id="year"></span> イアスピラ</span>
+      <span><a href="../index.html">イアスピラ トップへ →</a></span>
+    </div>
+  </footer>
+
+  <script>
+    const nav = document.getElementById("nav");
+    const onS = () => nav && nav.classList.toggle("is-scrolled",(window.scrollY||0)>8);
+    onS(); addEventListener("scroll", onS, {passive:true});
+    const ts = document.querySelectorAll(".reveal");
+    const gr = new Map();
+    ts.forEach(el=>{const k=el.parentElement;if(!gr.has(k))gr.set(k,[]);gr.get(k).push(el);});
+    gr.forEach(it=>it.forEach((el,i)=>el.style.setProperty("--rd",Math.min(i*80,480)+"ms")));
+    const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("is-visible");io.unobserve(e.target);}}),{threshold:.1,rootMargin:"0px 0px -6% 0px"});
+    ts.forEach(t=>io.observe(t));
+    document.getElementById("year").textContent=new Date().getFullYear();
+    const stage=document.querySelector(".visual-stage");
+    if(stage){for(let i=0;i<14;i++){const s=document.createElement("span");s.className="sparkle";const sz=2+Math.random()*5;s.style.width=s.style.height=sz+"px";s.style.left=Math.random()*100+"%";s.style.top=Math.random()*100+"%";s.style.animationDelay=Math.random()*3+"s";stage.appendChild(s);}}
+  </script>
+
+  <!-- 3Dダイヤモンド（Three.js） -->
+  <script type="importmap">
+  { "imports": { "three": "../assets/lib/three.module.min.js" } }
+  </script>
+  <script type="module">
+  import * as THREE from 'three';
+  const CFG = {
+    mount:'#diamond3d', segments:16, girdleR:1.0, tableR:0.56, crownH:0.30,
+    pavilion:0.86, girdleT:0.035, scale:1.55,
+    crystalColor:'#eef6ff', tintColor:'#2e7bf0', attenuation:1.6,
+    roughness:0.0, ior:2.1, thickness:1.2, iridescence:0.6, env:2.1,
+    baseSpeed:0.34, scrollSens:0.012, maxBoost:5.0, decay:0.93,
+  };
+  (function(){
+    const mount=document.querySelector(CFG.mount); if(!mount) return;
+    const W=()=>mount.clientWidth||400, H=()=>mount.clientHeight||400;
+    let renderer;
+    try{ renderer=new THREE.WebGLRenderer({antialias:true,alpha:true,powerPreference:'high-performance'}); }
+    catch(e){ return; } // WebGL不可ならフォールバックのまま
+    renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));
+    renderer.setSize(W(),H()); renderer.setClearColor(0x000000,0);
+    renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.15;
+    if('outputColorSpace' in renderer) renderer.outputColorSpace=THREE.SRGBColorSpace;
+    mount.appendChild(renderer.domElement); mount.classList.add('has3d');
+    const scene=new THREE.Scene();
+    const camera=new THREE.PerspectiveCamera(34,W()/H(),0.1,100); camera.position.set(0,0.12,5.0);
+
+    function makeDiamond(o){
+      const N=o.segments, gT=o.girdleT/2, gB=-o.girdleT/2;
+      const tableY=o.crownH+gT, culetY=gB-o.pavilion, R=o.girdleR;
+      const L=(a,b,t)=>a+(b-a)*t, D=Math.PI*2/N;
+      const ring=(r,y,off)=>{const a=[];for(let i=0;i<N;i++){const t=i*D+(off||0);a.push([r*Math.cos(t),y,r*Math.sin(t)]);}return a;};
+      const A=ring(o.tableR,tableY,0), B=ring(L(o.tableR,R,.6),L(tableY,gT,.55),D/2);
+      const G=ring(R,gT,0), Gb=ring(R,gB,0), Pu=ring(R*0.62,L(gB,culetY,.5),D/2), Pl=ring(R*0.26,L(gB,culetY,.84),0);
+      const tableC=[0,tableY,0], culet=[0,culetY,0], pos=[];
+      const tri=(p,q,r)=>pos.push(p[0],p[1],p[2],q[0],q[1],q[2],r[0],r[1],r[2]);
+      for(let i=0;i<N;i++){const j=(i+1)%N;tri(tableC,A[j],A[i]);}
+      const zig=(lo,hi)=>{for(let i=0;i<N;i++){const j=(i+1)%N;tri(lo[i],lo[j],hi[i]);tri(lo[j],hi[j],hi[i]);}};
+      const band=(t,b)=>{for(let i=0;i<N;i++){const j=(i+1)%N;tri(t[i],t[j],b[j]);tri(t[i],b[j],b[i]);}};
+      zig(A,B); zig(G,B); band(G,Gb); zig(Gb,Pu); zig(Pl,Pu);
+      for(let i=0;i<N;i++){const j=(i+1)%N;tri(Pl[i],culet,Pl[j]);}
+      const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));
+      g.computeVertexNormals(); g.center(); return g;
+    }
+    function buildEnv(){
+      const c=document.createElement('canvas'); c.width=1024; c.height=512; const x=c.getContext('2d');
+      const gr=x.createLinearGradient(0,0,0,512); gr.addColorStop(0,'#ffffff'); gr.addColorStop(.45,'#cfe6ff'); gr.addColorStop(1,'#1a3a6e');
+      x.fillStyle=gr; x.fillRect(0,0,1024,512);
+      const blob=(bx,by,r,col,a)=>{const rg=x.createRadialGradient(bx,by,0,bx,by,r);rg.addColorStop(0,col);rg.addColorStop(1,'rgba(255,255,255,0)');x.globalAlpha=a;x.fillStyle=rg;x.beginPath();x.arc(bx,by,r,0,7);x.fill();x.globalAlpha=1;};
+      blob(250,130,200,'#ffffff',1); blob(810,110,160,'#dcefff',.9); blob(540,360,250,'#3f93ff',.55); blob(110,310,150,'#cfe6ff',.5);
+      const t=new THREE.CanvasTexture(c); t.mapping=THREE.EquirectangularReflectionMapping;
+      if('colorSpace' in t) t.colorSpace=THREE.SRGBColorSpace;
+      const pm=new THREE.PMREMGenerator(renderer); const env=pm.fromEquirectangular(t).texture; pm.dispose(); t.dispose(); return env;
+    }
+    scene.environment=buildEnv();
+    const mat=new THREE.MeshPhysicalMaterial({color:new THREE.Color(CFG.crystalColor),metalness:0,roughness:CFG.roughness,transmission:1,thickness:CFG.thickness,ior:CFG.ior,attenuationColor:new THREE.Color(CFG.tintColor),attenuationDistance:CFG.attenuation,clearcoat:1,clearcoatRoughness:0,iridescence:CFG.iridescence,iridescenceIOR:1.3,envMapIntensity:CFG.env,specularIntensity:1,flatShading:true,side:THREE.DoubleSide,transparent:true});
+    const diamond=new THREE.Mesh(makeDiamond(CFG),mat); diamond.scale.setScalar(CFG.scale); scene.add(diamond);
+    scene.add(new THREE.AmbientLight(0xcfe6ff,0.35));
+    const k=new THREE.DirectionalLight(0xffffff,2.4); k.position.set(5,8,6); scene.add(k);
+    const rm=new THREE.DirectionalLight(0x6aa8ff,1.4); rm.position.set(-6,-2,-5); scene.add(rm);
+    let boost=0, lastY=scrollY;
+    addEventListener('scroll',()=>{const y=scrollY,dy=Math.abs(y-lastY);lastY=y;boost=Math.min(boost+dy*CFG.scrollSens,CFG.maxBoost);},{passive:true});
+    addEventListener('resize',()=>{camera.aspect=W()/H();camera.updateProjectionMatrix();renderer.setSize(W(),H());});
+    const clock=new THREE.Clock();
+    (function loop(){requestAnimationFrame(loop);const dt=Math.min(clock.getDelta(),.05),t=clock.elapsedTime;diamond.rotation.y+=(CFG.baseSpeed+boost)*dt;boost*=Math.pow(CFG.decay,dt*60);diamond.position.y=Math.sin(t*.6)*.05;diamond.rotation.x=Math.sin(t*.4)*.04;renderer.render(scene,camera);})();
+  })();
+  </script>
+</body>
+</html>
